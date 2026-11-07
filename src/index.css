@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/font/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf") format("truetype");
+}
+
+:root {
+  font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  color: #39352f;
+  background: #f8f6f1;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button {
+  font-weight: 700;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 200ms ease;
+}
+button.button-primary:hover:not(:disabled),
+button.button-secondary:hover:not(:disabled),
+button.button-icon:hover:not(:disabled),
+button.button-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+button.button-primary:active:not(:disabled),
+button.button-secondary:active:not(:disabled),
+button.button-icon:active:not(:disabled),
+button.button-card:active:not(:disabled) {
+  transform: translateY(1px) scale(0.97);
+}
+button.button-link:active:not(:disabled) { transform: scale(0.97); }
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; }
+  button:hover:not(:disabled),
+  button:active:not(:disabled) { transform: none; }
+}
+button:focus-visible {
+  outline: 3px solid rgb(255 107 18 / 35%);
+  outline-offset: 2px;
+}
+input, select { color: #39352f; font-weight: 400; }
+h1, h2, h3, h4, h5, h6, .font-serif { font-family: inherit; font-weight: 800; }
+h1 + p, h2 + p, h3 + p, .font-serif + p { font-weight: 600; }
+.font-medium, .font-semibold { font-weight: 600; }
+strong, b, .financial-value { font-weight: 700; }
+
+.button-primary,
+.button-secondary,
+.button-icon,
+.button-link,
+.button-card,
+.button-row,
+.button-nav,
+.button-mobile-nav {
+  transition-property: background-color, border-color, color, box-shadow;
+}
+
+.button-primary {
+  border: 1px solid #ff6b12;
+  background-color: #ff6b12;
+  color: #fff;
+}
+.button-primary:hover:not(:disabled) {
+  border-color: #e85d0b;
+  background-color: #e85d0b;
+  box-shadow: 0 6px 16px rgb(232 93 11 / 22%);
+}
+.button-primary:active:not(:disabled) {
+  border-color: #d95100;
+  background-color: #d95100;
+  box-shadow: inset 0 2px 4px rgb(120 44 0 / 18%);
+}
+.button-primary svg { color: #fff; }
+
+.button-secondary {
+  border: 1px solid #ffb27f;
+  background-color: #fff;
+  color: #d95300;
+}
+.button-secondary:hover:not(:disabled) {
+  border-color: #ff6b12;
+  background-color: #fff1e8;
+  box-shadow: 0 5px 14px rgb(255 107 18 / 12%);
+}
+.button-secondary:active:not(:disabled) {
+  background-color: #ffe2d1;
+  box-shadow: inset 0 2px 4px rgb(217 83 0 / 10%);
+}
+
+.button-icon {
+  border: 1px solid transparent;
+  background-color: #fff1e8;
+  color: #d95300;
+}
+.button-icon:hover:not(:disabled) {
+  background-color: #ffe2d1;
+  box-shadow: 0 4px 12px rgb(255 107 18 / 16%);
+}
+.button-icon:active:not(:disabled) {
+  background-color: #ffd2b4;
+  box-shadow: inset 0 2px 4px rgb(217 83 0 / 12%);
+}
+
+.button-link {
+  color: #e85d0b;
+}
+.button-link:hover:not(:disabled) {
+  color: #d95100;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.button-link:active:not(:disabled) { color: #b94300; }
+
+.button-card {
+  border-color: #f0e2d8;
+  background-color: #fff;
+}
+.button-card:hover:not(:disabled) {
+  border-color: #ffb27f;
+  background-color: #fffaf6;
+  box-shadow: 0 6px 18px rgb(57 53 47 / 7%);
+}
+.button-card:active:not(:disabled) {
+  background-color: #fff1e8;
+  box-shadow: inset 0 2px 5px rgb(217 83 0 / 8%);
+}
+
+.button-row { background-color: transparent; }
+.button-row:hover:not(:disabled) { background-color: #fff8f3; }
+.button-row:active:not(:disabled) { background-color: #fff1e8; }
+
+.button-nav { color: #78716c; }
+.button-nav:hover:not(:disabled) {
+  background-color: #fff1e8;
+  color: #d95300;
+}
+.button-nav:active:not(:disabled) { background-color: #ffe2d1; }
+.button-nav-active {
+  background-color: #fff1e8;
+  color: #d95300;
+  font-weight: 600;
+}
+
+.button-mobile-nav { color: #a8a29e; }
+.button-mobile-nav:hover:not(:disabled),
+.button-mobile-nav-active { color: #e85d0b; }
+.button-mobile-nav:active:not(:disabled) { color: #d95100; }
+
+.safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }

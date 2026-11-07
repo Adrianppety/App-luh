@@ -1,0 +1,13 @@
+{
+  "name": "Controle de vendas",
+  "short_name": "Controle de vendas",
+  "description": "Controle de vendas de semijoias",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f6f1",
+  "theme_color": "#f8f6f1",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/LOGOTIPO_2-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
