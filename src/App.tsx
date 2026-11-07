@@ -15,6 +15,13 @@ const pages: { name: Page; icon: string }[] = [
 
 const money = (value: number) =>
   value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+const parseDecimal = (value: string) => {
+  const normalized = value.trim().replace(/\s/g, '')
+  if (!normalized) return Number.NaN
+  return Number(normalized.includes(',')
+    ? normalized.replace(/\./g, '').replace(',', '.')
+    : normalized)
+}
 const today = () => {
   const date = new Date()
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
@@ -337,7 +344,7 @@ function App() {
     const saleItems: SaleItem[] = itemRows.map((row) => ({
       name: (row.querySelector<HTMLInputElement>('[name="itemName"]')?.value ?? '').trim(),
       code: (row.querySelector<HTMLInputElement>('[name="itemCode"]')?.value ?? '').trim(),
-      price: Number(row.querySelector<HTMLInputElement>('[name="itemPrice"]')?.value ?? 0),
+      price: parseDecimal(row.querySelector<HTMLInputElement>('[name="itemPrice"]')?.value ?? ''),
     }))
     if (!clientId || !saleItems.length || saleItems.some((item) => !item.name || !Number.isFinite(item.price) || item.price <= 0)) {
       notify('Preencha o cliente e os dados de cada item com valores válidos.')
@@ -357,7 +364,7 @@ function App() {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
     const clientId = Number(form.get('clientId'))
-    const amount = Number(form.get('amount'))
+    const amount = parseDecimal(String(form.get('amount') ?? ''))
     const date = String(form.get('date'))
     const note = String(form.get('note')).trim()
     const due = balances.get(clientId)?.due ?? 0
@@ -377,7 +384,7 @@ function App() {
 
   async function saveRate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const value = Number(draftRate)
+    const value = parseDecimal(draftRate)
     if (!Number.isFinite(value) || value < 0 || value > 100) {
       notify('Informe uma comissão entre 0% e 100%.')
       return
@@ -980,10 +987,8 @@ function App() {
                       <Field
                         label="Percentual (%)"
                         name="rate"
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.1"
+                        type="text"
+                        inputMode="decimal"
                         value={draftRate || String(rate)}
                         onChange={(event) => setDraftRate(event.target.value)}
                         required
@@ -1583,9 +1588,8 @@ function SaleForm({
                   />
                   <input
                     name="itemPrice"
-                    type="number"
-                    min="0.01"
-                    step="0.01"
+                    type="text"
+                    inputMode="decimal"
                     required
                     placeholder="Valor (R$)"
                     aria-label="Valor do produto"
@@ -1657,10 +1661,8 @@ function PaymentForm({
           <Field
             label="Valor recebido (R$)"
             name="amount"
-            type="number"
-            min="0.01"
-            max={due}
-            step="0.01"
+            type="text"
+            inputMode="decimal"
             placeholder="0,00"
             required
           />
