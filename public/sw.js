@@ -1,4 +1,4 @@
-const CACHE = 'app-v1'
+const CACHE = 'app-v2'
 const APP_SHELL = ['/', '/manifest.webmanifest', '/LOGOTIPO_2-icon.png', '/font/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf']
 
 self.addEventListener('install', (event) => {
@@ -18,7 +18,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key.startsWith('atelie-app-') && key !== CACHE).map((key) => caches.delete(key))),
+      Promise.all(keys.filter((key) => (key.startsWith('atelie-app-') || key.startsWith('app-')) && key !== CACHE).map((key) => caches.delete(key))),
     ),
   )
   self.clients.claim()
