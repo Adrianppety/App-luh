@@ -33,7 +33,10 @@ export async function authenticate(
           }
         }
       }
-      throw new Error(`Falha na função de autenticação (HTTP ${context.status}).`)
+      const responseDetails = responseText.trim().slice(0, 240)
+      throw new Error(
+        `Falha na função de autenticação (HTTP ${context.status})${responseDetails ? `: ${responseDetails}` : '.'}`,
+      )
     }
     throw error
   }
