@@ -14,15 +14,26 @@ export async function authenticate(
   if (error) {
     const context = error.context
     if (context instanceof Response) {
-      const responseBody: unknown = await context.clone().json().catch(() => null)
-      if (
-        responseBody &&
-        typeof responseBody === 'object' &&
-        'error' in responseBody &&
-        typeof responseBody.error === 'string'
-      ) {
-        throw new Error(responseBody.error)
+      const responseText = await context.clone().text()
+      let responseBody: unknown
+      try {
+        responseBody = JSON.parse(responseText) as unknown
+      } catch {
+        responseBody = responseText.trim()
       }
+
+      if (typeof responseBody === 'string' && responseBody) {
+        throw new Error(responseBody)
+      }
+      if (responseBody && typeof responseBody === 'object') {
+        const errorPayload = responseBody as Record<string, unknown>
+        for (const key of ['error', 'message', 'msg']) {
+          if (typeof errorPayload[key] === 'string') {
+            throw new Error(errorPayload[key])
+          }
+        }
+      }
+      throw new Error(`Falha na função de autenticação (HTTP ${context.status}).`)
     }
     throw error
   }
