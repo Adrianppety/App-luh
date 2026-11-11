@@ -11,7 +11,21 @@ export async function authenticate(
   const { data, error } = await supabase.functions.invoke<{ session: Session }>('username-auth', {
     body: { action, username: username.trim().toLowerCase(), password },
   })
-  if (error) throw error
+  if (error) {
+    const context = error.context
+    if (context instanceof Response) {
+      const responseBody: unknown = await context.clone().json().catch(() => null)
+      if (
+        responseBody &&
+        typeof responseBody === 'object' &&
+        'error' in responseBody &&
+        typeof responseBody.error === 'string'
+      ) {
+        throw new Error(responseBody.error)
+      }
+    }
+    throw error
+  }
   if (!data?.session?.access_token || !data.session.refresh_token) {
     throw new Error('A resposta de autenticação não contém uma sessão válida.')
   }
